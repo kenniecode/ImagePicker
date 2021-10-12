@@ -1,50 +1,92 @@
-# 高仿微信图片选择器
+# ImagePicker
 
-#### 注意开发细节，尽可能的做到加载速度最快，目前支持图片，视频单选，多选，多文件夹切换，大图预览，自定义图片加载器等功能。
+<p align="center"><img src="./resources/logo.gif" width="50%"/></p>
 
-#### 效果图：
- ![](https://github.com/Lichenwei-Dev/ImagePicker/blob/master/screenshot/Screenshot1.png)
- ![](https://github.com/Lichenwei-Dev/ImagePicker/blob/master/screenshot/Screenshot2.png)
- ![](https://github.com/Lichenwei-Dev/ImagePicker/blob/master/screenshot/Screenshot3.png)
- ![](https://github.com/Lichenwei-Dev/ImagePicker/blob/master/screenshot/Screenshot4.png)
- 
- 
- 
-版本更新历史：
-### Version1.0.0：
-1、可预览各文件夹下的图片  
-2、可配置是否支持相机拍照  
-3、可配置选择图片模式（单选/多选）  
-4、可配置选择图片数量  
-5、可配置图片加载框架
-
-### Version1.1.0：
-1、新增大图预览功能（初步实现，考虑性能后期会改为Fragment承载，单一Activity架构）  
-2、更改选择图片文件夹弹窗高度  
-3、更改ImageLoader接口，开放小图加载、大图加载、清除缓存方法   
-
-### Version2.0.0：
-1、重构了大量的代码，更加注重代码间的解耦，相比1.0.+版本简化了配置项，让开发者可以更专注于业务。  
-2、添加媒体库扫描对GIF、视频的支持，并开放接口让开发者自行实现视频播放逻辑。  
-3、添加媒体库加载策略，开发者可自行配置加载图片或者视频，灵活运用于不同业务实现。  
-4、完善大图预览功能，完善部分UI界面的显示。
+<p align="center">
+    <strong>高仿微信图片选择器</strong>
+    <br>
+    <br>
+    <a href="https://kenniecode.github.io/ImagePicker/">使用文档</a>
+    <br>    
+</p>
 
 
-# 使用方式:
+<div align="center" >
 
-1、如何在项目中引入该图片加载库：
+[![License](https://img.shields.io/github/license/kenniecode/ImagePicker)](https://github.com/kenniecode/ImagePicker/blob/main/LICENSE)
+![MinSdk](https://img.shields.io/badge/API-21%2B-brightgreen.svg?style=flat)
+[![JitPack](https://jitpack.io/v/kenniecode/ImagePicker.svg)](https://jitpack.io/#kenniecode/ImagePicker)
+<img src="https://img.shields.io/badge/language-java-blue.svg"/>
+<img src="https://img.shields.io/badge/language-kotlin-orange.svg"/>
+
+</div>
+
+
+
+## 简介
+
+> 高仿微信图片选择器 目前支持图片，视频单选，多选，多文件夹切换，大图预览，自定义图片加载器等功能。
+
+如有任何疑问或者Bug，请在 github 上公开讨论[技术问题](https://github.com/kenniecode/KennieFilterMenu/issues)
+
+**开源不易，如果喜欢的话希望给个 `Star` 或 `Fork` ^_^ ，谢谢~~**
+
+
+## 功能及特点
+
+- 图片、视频单选 
+- 图片、视频多选
+- 多文件夹切换
+- 大图预览
+- 自定义图片加载器
+
+## 预览
+
+| ![](resources/screenshots/Screenshot1.png) | ![](resources/screenshots/Screenshot2.png) | ![](resources/screenshots/Screenshot3.png) | ![](resources/screenshots/Screenshot4.png) |
+| --- | --- | --- | --- |
+
+
+## 下载
+
+- [GitHub下载](https://gitee.com/kenniecode/ImagePicker/tree/template%2Flibrary/releases) [![](https://img.shields.io/badge/Download-apk-green.svg)](https://gitee.com/kenniecode/ImagePicker/tree/template%2Flibrary/releases/app-release.apk)
+- 扫码
+
+![](./resources/download_qr_code.png)
+
+
+
+## 如何使用
+
+### 1.gradle中添加依赖
+   
+在项目的root build.gradle中添加如下配置：
 ```
-                //gradle版本在3.0以上引入此行
-                implementation 'com.lcw.library:imagepicker:2.2.7'
+allprojects {
+		repositories {
+			...
+			maven { url 'https://jitpack.io' }
+		}
+	}
+	
 ```
-2、如何自定义图片加载器（不定死框架，让框架更加灵活，需要去实现ImageLoader接口即可，如果需要显示视频，优先推荐Glide加载框架，可以参考Demo实现）：
+添加依赖
+
+```
+implementation 'com.lcw.library:imagepicker:2.2.7'
+
+```
+
+### 2、如何自定义图片加载器
+
+（不定死框架，让框架更加灵活，需要去实现ImageLoader接口即可，如果需要显示视频，优先推荐Glide加载框架，可以参考Demo实现）：
 ```
             public class GlideLoader implements ImageLoader {
                 //to do something 可以参考Demo用法
                 
             }
 ```
-3、一行代码调用：
+
+### 3、一行代码调用：
 ```
                 ImagePicker.getInstance()
                         .setTitle("标题")//设置标题
@@ -59,7 +101,7 @@
                         .start(MainActivity.this, REQUEST_SELECT_IMAGES_CODE);//REQEST_SELECT_IMAGES_CODE为Intent调用的requestCode
 ```
 
-4、如何获取选中的图片集合：
+### 4、如何获取选中的图片集合：
 ```
                 @Override
                 protected void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -69,7 +111,55 @@
                 }
 ```
 
-版本会持续迭代，欢迎大家给建议。。。（欢迎Star，欢迎Fork）
 
- 
+## 更新日志
 
+- [详细日志](./CHANGELOG.md)
+
+
+## 注意事项
+
+> **使用前请查看注意事项**，当前版本仅支持AndroidX
+
+### 构建环境
+
+> 最低支持api 21
+
+    compileSdk 30
+    minSdk 21
+    targetSdk 30
+
+> 开发环境
+
+    AndroidStudio ArcticFox 2020.3.1
+    JDK 1.8 || JDK 11
+    kotlin 1.5.31
+    gradle-7.0.2-bin & gradle 7.0.3
+
+
+
+## 感谢
+
+- [AliyunGradleConfig](https://github.com/gzu-liyujiang/AliyunGradleConfig)
+- [Android 代码规范文档](https://gitee.com/getActivity/AndroidCodeStandard)
+- [ImagePicker](https://github.com/mymbrooks/ImagePicker)
+- [阿里矢量图](https://www.iconfont.cn/)
+- [花瓣](https://huaban.com/)
+
+## LICENSE
+
+```
+Copyright (c) 2020-2021 kennie
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+   http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+```
