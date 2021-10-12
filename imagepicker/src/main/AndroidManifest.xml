@@ -1,5 +1,5 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.lcw.library.imagepicker">
+    package="com.kennie.library.imagepicker">
 
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.CAMERA" />
@@ -8,11 +8,11 @@
 
         <!--图片列表Activity-->
         <activity
-            android:name="com.lcw.library.imagepicker.activity.ImagePickerActivity"
+            android:name=".activity.ImagePickerActivity"
             android:screenOrientation="portrait" />
         <!--大图预览Activity-->
         <activity
-            android:name="com.lcw.library.imagepicker.activity.ImagePreActivity"
+            android:name=".activity.ImagePreActivity"
             android:screenOrientation="portrait" />
 
         <!-- Android 7.0 文件共享配置，必须配置 -->
