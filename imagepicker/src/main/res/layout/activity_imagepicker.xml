@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tool="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
@@ -13,23 +14,24 @@
     <RelativeLayout
         android:id="@+id/rl_main_bottom"
         android:layout_width="match_parent"
-        android:layout_height="50dp"
+        android:layout_height="@dimen/dp_48"
         android:layout_alignParentBottom="true"
         android:background="#303030">
 
-        <TextView
+        <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/tv_main_imageFolders"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:layout_alignParentLeft="true"
-            android:layout_marginLeft="10dp"
-            android:drawableRight="@mipmap/icon_album_index"
-            android:drawablePadding="4dp"
+            android:layout_alignParentStart="true"
+            android:layout_marginStart="@dimen/dp_10"
+            android:drawablePadding="@dimen/dp_5"
             android:gravity="center"
             android:text="@string/all_media"
             android:textColor="@android:color/white"
-            android:textSize="16sp"
-            tool:text="@string/all_media" />
+            android:textSize="@dimen/sp_16"
+            tools:text="@string/all_media"
+            android:drawableEnd="@mipmap/icon_album_index"
+            tools:drawableEnd="@mipmap/icon_album_index"/>
 
     </RelativeLayout>
 
@@ -45,15 +47,19 @@
             android:layout_height="match_parent"
             android:background="@android:color/black" />
 
-        <TextView
+        <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/tv_image_time"
             android:layout_width="match_parent"
-            android:layout_height="24dp"
+            android:layout_height="wrap_content"
             android:background="@color/text_bg_gray"
             android:gravity="center_vertical"
-            android:paddingLeft="16dp"
+            android:paddingStart="@dimen/dp_16"
+            android:paddingEnd="@dimen/dp_16"
             android:textColor="@color/text_color_white"
-            android:visibility="gone" />
+            android:visibility="gone"
+            tools:text="2021-11-01"
+            android:textSize="@dimen/sp_14"
+            tools:visibility="visible"/>
     </RelativeLayout>
 
 </RelativeLayout>

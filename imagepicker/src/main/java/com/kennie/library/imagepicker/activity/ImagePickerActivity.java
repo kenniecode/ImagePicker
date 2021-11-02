@@ -19,6 +19,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.widget.AppCompatTextView;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.FileProvider;
 import androidx.recyclerview.widget.GridLayoutManager;
@@ -48,8 +49,14 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
+
 /**
- * 多图选择器主页面
+ * @项目名 KennieImagePicker
+ * @类名称 ImagePickerActivity
+ * @类描述 多图选择器主页面
+ * @创建人 kennie
+ * @修改人
+ * @创建时间 2021/10/21 22:49
  */
 public class ImagePickerActivity extends BaseActivity implements ImagePickerAdapter.OnItemClickListener, ImageFoldersAdapter.OnImageFolderChangeListener {
 
@@ -69,9 +76,9 @@ public class ImagePickerActivity extends BaseActivity implements ImagePickerAdap
      */
     private TextView mTvTitle;
     private TextView mTvCommit;
-    private TextView mTvImageTime;
+    private AppCompatTextView mTvImageTime; // 悬浮日期时间
     private RecyclerView mRecyclerView;
-    private TextView mTvImageFolders;
+    private AppCompatTextView mTvImageFolders;
     private ImageFolderPopupWindow mImageFolderPopupWindow;
     private ProgressDialog mProgressDialog;
     private RelativeLayout mRlBottom;
@@ -419,11 +426,11 @@ public class ImagePickerActivity extends BaseActivity implements ImagePickerAdap
 
         if (mMediaFileList != null) {
             DataUtil.getInstance().setMediaData(mMediaFileList);
-            Intent intent = new Intent(this, ImagePreActivity.class);
+            Intent intent = new Intent(this, ImagePreviewActivity.class);
             if (isShowCamera) {
-                intent.putExtra(ImagePreActivity.IMAGE_POSITION, position - 1);
+                intent.putExtra(ImagePreviewActivity.IMAGE_POSITION, position - 1);
             } else {
-                intent.putExtra(ImagePreActivity.IMAGE_POSITION, position);
+                intent.putExtra(ImagePreviewActivity.IMAGE_POSITION, position);
             }
             startActivityForResult(intent, REQUEST_SELECT_IMAGES_CODE);
         }

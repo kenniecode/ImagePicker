@@ -29,7 +29,15 @@ import java.util.List;
 /**
  * 大图预览界面
  */
-public class ImagePreActivity extends BaseActivity {
+/**
+ * @项目名 KennieImagePicker
+ * @类名称 ImagePreActivity
+ * @类描述 大图预览界面
+ * @创建人 kennie
+ * @修改人
+ * @创建时间 2021/10/21 22:49
+ */
+public class ImagePreviewActivity extends BaseActivity {
 
     public static final String IMAGE_POSITION = "imagePosition";
     private List<MediaFile> mMediaFileList;
@@ -99,7 +107,7 @@ public class ImagePreActivity extends BaseActivity {
                         //判断选中集合中第一项是否为视频
                         if (!SelectionManager.isCanAddSelectionPaths(mMediaFileList.get(mViewPager.getCurrentItem()).getPath(), selectPathList.get(0))) {
                             //类型不同
-                            Toast.makeText(ImagePreActivity.this, getString(R.string.single_type_choose), Toast.LENGTH_SHORT).show();
+                            Toast.makeText(ImagePreviewActivity.this, getString(R.string.single_type_choose), Toast.LENGTH_SHORT).show();
                             return;
                         }
                     }
@@ -110,7 +118,7 @@ public class ImagePreActivity extends BaseActivity {
                     updateSelectButton(mMediaFileList.get(mViewPager.getCurrentItem()).getPath());
                     updateCommitButton();
                 } else {
-                    Toast.makeText(ImagePreActivity.this, String.format(getString(R.string.select_image_max), SelectionManager.getInstance().getMaxCount()), Toast.LENGTH_SHORT).show();
+                    Toast.makeText(ImagePreviewActivity.this, String.format(getString(R.string.select_image_max), SelectionManager.getInstance().getMaxCount()), Toast.LENGTH_SHORT).show();
                 }
             }
         });
@@ -128,7 +136,7 @@ public class ImagePreActivity extends BaseActivity {
             public void onClick(View v) {
                 //实现播放视频的跳转逻辑(调用原生视频播放器)
                 Intent intent = new Intent(Intent.ACTION_VIEW);
-                Uri uri = FileProvider.getUriForFile(ImagePreActivity.this, ImagePickerProvider.getFileProviderName(ImagePreActivity.this), new File(mMediaFileList.get(mViewPager.getCurrentItem()).getPath()));
+                Uri uri = FileProvider.getUriForFile(ImagePreviewActivity.this, ImagePickerProvider.getFileProviderName(ImagePreviewActivity.this), new File(mMediaFileList.get(mViewPager.getCurrentItem()).getPath()));
                 intent.setDataAndType(uri, "video/*");
                 //给所有符合跳转条件的应用授权
                 List<ResolveInfo> resInfoList = getPackageManager()

@@ -1,8 +1,6 @@
 package com.kennie.library.imagepicker.activity;
 
-import android.os.Build;
 import android.os.Bundle;
-import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 
@@ -11,29 +9,27 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.kennie.library.imagepicker.R;
 
+
 /**
- * BaseActivity基类
+ * @项目名 KennieImagePicker
+ * @类名称 BaseActivity
+ * @类描述 BaseActivity基类
+ * @创建人 kennie
+ * @修改人
+ * @创建时间 2021/10/21 22:49
  */
 public abstract class BaseActivity extends AppCompatActivity {
-
-    private View mView;
-
+    
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         //在5.0系统以上设置状态栏颜色
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            Window window = getWindow();
-            window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
-            window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
-            window.setStatusBarColor(getResources().getColor(R.color.tool_bar_color));
-        }
+        Window window = getWindow();
+        window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+        window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
+        window.setStatusBarColor(getResources().getColor(R.color.tool_bar_color));
 
-        if (mView == null) {
-            mView = View.inflate(this, bindLayout(), null);
-        }
-
-        setContentView(mView);
+        setContentView(bindLayout());
 
         initConfig();
         initView();

@@ -12,7 +12,7 @@
             android:screenOrientation="portrait" />
         <!--大图预览Activity-->
         <activity
-            android:name=".activity.ImagePreActivity"
+            android:name=".activity.ImagePreviewActivity"
             android:screenOrientation="portrait" />
 
         <!-- Android 7.0 文件共享配置，必须配置 -->

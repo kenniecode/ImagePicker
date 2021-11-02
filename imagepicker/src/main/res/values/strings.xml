@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">ImagePicker</string>
+    <string name="app_name">KennieImagePicker</string>
 
     <string name="image_picker">图片选择器</string>
     <string name="scanner_image">正在扫描图片..</string>

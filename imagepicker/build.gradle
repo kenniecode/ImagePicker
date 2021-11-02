@@ -20,4 +20,5 @@ dependencies {
     implementation depX.appcompat
     implementation depX.material
     implementation depX.recyclerview
+    implementation project(':library_res')
 }
