@@ -53,7 +53,7 @@ import java.util.List;
 /**
  * @项目名 KennieImagePicker
  * @类名称 ImagePickerActivity
- * @类描述 多图选择器主页面
+ * @类描述 多图选择页面
  * @创建人 kennie
  * @修改人
  * @创建时间 2021/10/21 22:49

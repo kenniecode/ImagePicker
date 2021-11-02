@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/bg_black">
@@ -14,32 +15,33 @@
         android:layout_height="50dp"
         android:layout_alignParentBottom="true"
         android:background="#303030"
-        android:gravity="right"
-        android:paddingRight="16dp">
+        android:gravity="end"
+        android:paddingEnd="@dimen/dp_16">
 
         <LinearLayout
             android:id="@+id/ll_pre_select"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:gravity="right"
+            android:gravity="end"
             android:orientation="horizontal">
 
             <ImageView
                 android:id="@+id/iv_item_check"
-                android:layout_width="20dp"
-                android:layout_height="20dp"
+                android:layout_width="@dimen/dp_20"
+                android:layout_height="@dimen/dp_20"
                 android:layout_gravity="center_vertical"
-                android:layout_marginRight="6dp"
+                android:layout_marginEnd="@dimen/dp_6"
                 android:scaleType="centerCrop"
-                android:src="@mipmap/icon_image_checked" />
+                android:src="@mipmap/icon_image_checked"
+                android:contentDescription="@null" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:text="@string/image_select"
-                android:textColor="@color/text_color_white"
-                android:textSize="14sp" />
+                android:textColor="@color/white"
+                android:textSize="@dimen/sp_14" />
 
         </LinearLayout>
 
@@ -51,18 +53,22 @@
         android:layout_above="@id/rl_main_bottom"
         android:layout_below="@id/layout_actionBar">
 
+        <ImageView
+            android:id="@+id/iv_main_play"
+            android:layout_width="@dimen/dp_80"
+            android:layout_height="@dimen/dp_80"
+            android:contentDescription="@null"
+            android:layout_centerInParent="true"
+            tools:visibility="visible"
+            android:src="@mipmap/icon_video_play"
+            android:visibility="gone" />
+
         <com.kennie.library.imagepicker.view.HackyViewPager
             android:id="@+id/vp_main_preImage"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
-
-        <ImageView
-            android:id="@+id/iv_main_play"
-            android:layout_width="80dp"
-            android:layout_height="80dp"
-            android:layout_centerInParent="true"
-            android:src="@mipmap/icon_video_play"
-            android:visibility="gone" />
     </RelativeLayout>
+
+
 
 </RelativeLayout>

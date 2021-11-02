@@ -7,10 +7,11 @@ import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
-import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.widget.AppCompatImageView;
+import androidx.appcompat.widget.AppCompatTextView;
+import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.kennie.library.imagepicker.R;
@@ -151,10 +152,14 @@ public class ImagePickerAdapter extends RecyclerView.Adapter<ImagePickerAdapter.
             //选择状态（仅是UI表现，真正数据交给SelectionManager管理）
             if (SelectionManager.getInstance().isImageSelect(imagePath)) {
                 mediaHolder.mImageView.setColorFilter(Color.parseColor("#77000000"));
-                mediaHolder.mImageCheck.setImageDrawable(mContext.getResources().getDrawable(R.mipmap.icon_image_checked));
+                mediaHolder.mImageCheck
+                        .setImageDrawable
+                                (ContextCompat.getDrawable(mContext, R.mipmap.icon_image_checked));
             } else {
                 mediaHolder.mImageView.setColorFilter(null);
-                mediaHolder.mImageCheck.setImageDrawable(mContext.getResources().getDrawable(R.mipmap.icon_image_check));
+                mediaHolder.mImageCheck
+                        .setImageDrawable
+                                (ContextCompat.getDrawable(mContext, R.mipmap.icon_image_check));
             }
 
             try {
@@ -172,7 +177,6 @@ public class ImagePickerAdapter extends RecyclerView.Adapter<ImagePickerAdapter.
                     ((ImageHolder) mediaHolder).mImageGif.setVisibility(View.GONE);
                 }
             }
-
             if (mediaHolder instanceof VideoHolder) {
                 //如果是视频，需要显示视频时长
                 String duration = Utils.getVideoDuration(mediaFile.getDuration());
@@ -187,7 +191,7 @@ public class ImagePickerAdapter extends RecyclerView.Adapter<ImagePickerAdapter.
      */
     class ImageHolder extends MediaHolder {
 
-        public ImageView mImageGif;
+        public AppCompatImageView mImageGif;
 
         public ImageHolder(View itemView) {
             super(itemView);
@@ -200,7 +204,7 @@ public class ImagePickerAdapter extends RecyclerView.Adapter<ImagePickerAdapter.
      */
     class VideoHolder extends MediaHolder {
 
-        TextView mVideoDuration;
+        AppCompatTextView mVideoDuration;
 
         VideoHolder(View itemView) {
             super(itemView);
@@ -214,7 +218,7 @@ public class ImagePickerAdapter extends RecyclerView.Adapter<ImagePickerAdapter.
     class MediaHolder extends BaseHolder {
 
         SquareImageView mImageView;
-        ImageView mImageCheck;
+        AppCompatImageView mImageCheck;
 
         MediaHolder(View itemView) {
             super(itemView);

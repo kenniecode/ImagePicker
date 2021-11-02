@@ -4,23 +4,23 @@
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:background="@color/bg_color"
-    android:padding="1dp">
+    android:padding="@dimen/dp_1">
 
     <com.kennie.library.imagepicker.view.SquareImageView
         android:id="@+id/iv_item_image"
-        android:layout_width="36dp"
-        android:layout_height="36dp"
+        android:layout_width="@dimen/dp_36"
+        android:layout_height="@dimen/dp_36"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="@dimen/dp_20"
         android:src="@mipmap/icon_image_camera" />
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="60dp"
+        android:layout_marginTop="@dimen/dp_60"
         android:text="@string/take_photo"
-        android:textColor="@color/text_color_white"
-        android:textSize="14sp" />
+        android:textColor="@color/white"
+        android:textSize="@dimen/sp_14" />
 
 </com.kennie.library.imagepicker.view.SquareRelativeLayout>

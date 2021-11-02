@@ -1,27 +1,28 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="120dp"
-    android:layout_marginLeft="4dp">
+    android:layout_height="@dimen/dp_100"
+    android:layout_marginStart="@dimen/dp_4">
 
     <ImageView
+        android:contentDescription="@null"
         android:id="@+id/iv_item_imageCover"
-        android:layout_width="100dp"
-        android:layout_height="100dp"
+        android:layout_width="@dimen/dp_80"
+        android:layout_height="@dimen/dp_80"
         android:layout_centerVertical="true"
-        android:layout_marginLeft="10dp"
+        android:layout_marginStart="@dimen/dp_10"
         android:background="@mipmap/icon_image_folder"
-        android:paddingLeft="12dp"
-        android:paddingTop="9dp"
-        android:paddingRight="12dp"
-        android:paddingBottom="17dp"
+        android:paddingLeft="@dimen/dp_12"
+        android:paddingTop="@dimen/dp_9"
+        android:paddingRight="@dimen/dp_12"
+        android:paddingBottom="@dimen/dp_16"
         android:scaleType="fitXY" />
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_centerVertical="true"
-        android:layout_toRightOf="@id/iv_item_imageCover"
+        android:layout_toEndOf="@id/iv_item_imageCover"
         android:gravity="center_vertical"
         android:orientation="vertical">
 
@@ -29,42 +30,43 @@
             android:id="@+id/tv_item_folderName"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="10dp"
+            android:layout_marginStart="@dimen/dp_10"
             android:ellipsize="end"
             android:maxLength="12"
             android:singleLine="true"
             android:text="@string/all_media"
             android:textColor="@android:color/black"
-            android:textSize="16sp" />
+            android:textSize="@dimen/sp_16" />
 
         <TextView
             android:id="@+id/tv_item_imageSize"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="10dp"
-            android:layout_marginTop="6dp"
+            android:layout_marginLeft="@dimen/dp_10"
+            android:layout_marginTop="@dimen/dp_6"
             android:text="@string/image_num"
             android:textColor="@android:color/darker_gray"
-            android:textSize="12sp" />
+            android:textSize="@dimen/sp_12" />
     </LinearLayout>
 
 
-    <ImageView
+    <androidx.appcompat.widget.AppCompatImageView
         android:id="@+id/iv_item_check"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
         android:layout_centerVertical="true"
+        android:contentDescription="@null"
         android:layout_gravity="center_vertical"
-        android:layout_marginRight="20dp"
+        android:layout_marginEnd="@dimen/dp_18"
         android:src="@mipmap/icon_image_folder_checked" />
 
     <View
         android:layout_width="match_parent"
-        android:layout_height="0.5dp"
+        android:layout_height="@dimen/dp_0_5"
         android:layout_alignParentBottom="true"
-        android:layout_marginLeft="15dp"
-        android:layout_marginRight="15dp"
+        android:layout_marginStart="@dimen/dp_15"
+        android:layout_marginEnd="@dimen/dp_15"
         android:background="@android:color/darker_gray" />
 
 </RelativeLayout>

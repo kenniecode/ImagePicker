@@ -3,30 +3,30 @@
     android:id="@+id/srl_item"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:padding="1dp">
+    android:padding="@dimen/dp_1">
 
     <com.kennie.library.imagepicker.view.SquareImageView
         android:id="@+id/iv_item_image"
         android:layout_width="match_parent"
-        android:layout_height="90dp"
+        android:layout_height="@dimen/dp_88"
         android:background="@mipmap/icon_image_default"
         android:scaleType="centerCrop" />
 
     <ImageView
         android:id="@+id/iv_item_check"
-        android:layout_width="30dp"
-        android:layout_height="30dp"
-        android:layout_alignParentRight="true"
-        android:padding="5dp"
+        android:layout_width="@dimen/dp_28"
+        android:layout_height="@dimen/dp_28"
+        android:layout_alignParentEnd="true"
+        android:padding="@dimen/dp_5"
         android:scaleType="centerCrop"
         android:src="@mipmap/icon_image_checked" />
 
-    <ImageView
+    <androidx.appcompat.widget.AppCompatImageView
         android:id="@+id/iv_item_gif"
-        android:layout_width="30dp"
-        android:layout_height="30dp"
+        android:layout_width="@dimen/dp_28"
+        android:layout_height="@dimen/dp_28"
         android:layout_alignParentBottom="true"
-        android:layout_marginLeft="6dp"
+        android:layout_marginStart="@dimen/dp_6"
         android:scaleType="centerCrop"
         android:src="@mipmap/icon_gif"
         android:visibility="gone" />

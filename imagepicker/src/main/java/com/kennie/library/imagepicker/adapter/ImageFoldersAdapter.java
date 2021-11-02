@@ -10,6 +10,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.widget.AppCompatImageView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.kennie.library.imagepicker.R;
@@ -89,7 +90,7 @@ public class ImageFoldersAdapter extends RecyclerView.Adapter<ImageFoldersAdapte
         private ImageView mImageCover;
         private TextView mFolderName;
         private TextView mImageSize;
-        private ImageView mImageFolderCheck;
+        private AppCompatImageView mImageFolderCheck;
 
         public ViewHolder(View itemView) {
             super(itemView);

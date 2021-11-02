@@ -26,9 +26,7 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * 大图预览界面
- */
+
 /**
  * @项目名 KennieImagePicker
  * @类名称 ImagePreActivity
@@ -54,7 +52,7 @@ public class ImagePreviewActivity extends BaseActivity {
 
     @Override
     protected int bindLayout() {
-        return R.layout.activity_pre_image;
+        return R.layout.activity_preview_image;
     }
 
     @Override
@@ -85,7 +83,7 @@ public class ImagePreviewActivity extends BaseActivity {
 
             @Override
             public void onPageSelected(int position) {
-                mTvTitle.setText(String.format("%d/%d", position + 1, mMediaFileList.size()));
+                mTvTitle.setText(getString(R.string.actionbar_text , position + 1 , mMediaFileList.size()));
                 setIvPlayShow(mMediaFileList.get(position));
                 updateSelectButton(mMediaFileList.get(position).getPath());
             }

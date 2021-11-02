@@ -6,8 +6,14 @@ import android.util.AttributeSet;
 import androidx.annotation.Nullable;
 import androidx.appcompat.widget.AppCompatImageView;
 
+
 /**
- * 正方形ImageView
+ * @项目名 KennieImagePicker
+ * @类名称 SquareImageView
+ * @类描述 正方形ImageView
+ * @创建人 kennie
+ * @修改人
+ * @创建时间 2021/10/21 22:49
  */
 public class SquareImageView extends AppCompatImageView {
 
