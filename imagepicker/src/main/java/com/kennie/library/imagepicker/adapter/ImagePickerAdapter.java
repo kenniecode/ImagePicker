@@ -171,7 +171,7 @@ public class ImagePickerAdapter extends RecyclerView.Adapter<ImagePickerAdapter.
             if (mediaHolder instanceof ImageHolder) {
                 //如果是gif图，显示gif标识
                 String suffix = imagePath.substring(imagePath.lastIndexOf(".") + 1);
-                if (suffix.toUpperCase().equals("GIF")) {
+                if (suffix.equalsIgnoreCase("GIF")) {
                     ((ImageHolder) mediaHolder).mImageGif.setVisibility(View.VISIBLE);
                 } else {
                     ((ImageHolder) mediaHolder).mImageGif.setVisibility(View.GONE);
@@ -189,7 +189,7 @@ public class ImagePickerAdapter extends RecyclerView.Adapter<ImagePickerAdapter.
     /**
      * 图片Item
      */
-    class ImageHolder extends MediaHolder {
+    static class ImageHolder extends MediaHolder {
 
         public AppCompatImageView mImageGif;
 
@@ -202,7 +202,7 @@ public class ImagePickerAdapter extends RecyclerView.Adapter<ImagePickerAdapter.
     /**
      * 视频Item
      */
-    class VideoHolder extends MediaHolder {
+    static class VideoHolder extends MediaHolder {
 
         AppCompatTextView mVideoDuration;
 
@@ -215,7 +215,7 @@ public class ImagePickerAdapter extends RecyclerView.Adapter<ImagePickerAdapter.
     /**
      * 媒体Item
      */
-    class MediaHolder extends BaseHolder {
+    static class MediaHolder extends BaseHolder {
 
         SquareImageView mImageView;
         AppCompatImageView mImageCheck;
@@ -230,7 +230,7 @@ public class ImagePickerAdapter extends RecyclerView.Adapter<ImagePickerAdapter.
     /**
      * 基础Item
      */
-    class BaseHolder extends RecyclerView.ViewHolder {
+    static class BaseHolder extends RecyclerView.ViewHolder {
 
         SquareRelativeLayout mSquareRelativeLayout;
 
