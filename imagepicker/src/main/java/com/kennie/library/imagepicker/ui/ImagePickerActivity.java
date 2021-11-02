@@ -2,6 +2,7 @@ package com.kennie.library.imagepicker.ui;
 
 import android.Manifest;
 import android.animation.ObjectAnimator;
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Context;
@@ -13,6 +14,7 @@ import android.os.Environment;
 import android.os.Handler;
 import android.provider.MediaStore;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.PopupWindow;
@@ -20,6 +22,8 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.activity.result.ActivityResultCallback;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.appcompat.widget.AppCompatTextView;
 import androidx.core.app.ActivityCompat;
@@ -28,6 +32,10 @@ import androidx.core.content.FileProvider;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.dylanc.activityresult.launcher.AppDetailsSettingsLauncher;
+import com.dylanc.activityresult.launcher.RequestMultiplePermissionsLauncher;
+import com.dylanc.callbacks.Callback0;
+import com.dylanc.callbacks.Callback2;
 import com.kennie.library.imagepicker.ImagePicker;
 import com.kennie.library.imagepicker.R;
 import com.kennie.library.imagepicker.ui.adapter.ImageFoldersAdapter;
@@ -50,6 +58,7 @@ import com.kennie.library.imagepicker.view.ImageFolderPopupWindow;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 
 /**
@@ -62,6 +71,7 @@ import java.util.List;
  */
 public class ImagePickerActivity extends BaseActivity implements ImagePickerAdapter.OnItemClickListener, ImageFoldersAdapter.OnImageFolderChangeListener {
 
+    private static String TAG = ImagePickerActivity.class.getSimpleName();
     /**
      * 启动参数
      */
@@ -104,12 +114,10 @@ public class ImagePickerActivity extends BaseActivity implements ImagePickerAdap
     private static final int LIGHT_ON = 1;
 
     private Handler mMyHandler = new Handler();
-    private Runnable mHideRunnable = new Runnable() {
-        @Override
-        public void run() {
-            hideImageTime();
-        }
-    };
+    private Runnable mHideRunnable = () -> hideImageTime();
+
+
+    private final RequestMultiplePermissionsLauncher requestMultiplePermissionsLauncher = new RequestMultiplePermissionsLauncher(this);
 
 
     /**
@@ -230,40 +238,19 @@ public class ImagePickerActivity extends BaseActivity implements ImagePickerAdap
         //进行权限的判断
         boolean hasPermission = checkPermission(this);
         if (!hasPermission) {
-            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE}, REQUEST_PERMISSION_CAMERA_CODE);
+            //具有拍照权限，sd卡权限，开始扫描任务
+            requestMultiplePermissionsLauncher.launch(new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.READ_EXTERNAL_STORAGE,Manifest.permission.CAMERA}, this::startScannerTask, new Callback2<List<String>, AppDetailsSettingsLauncher>() {
+                @Override
+                public void invoke(List<String> strings, AppDetailsSettingsLauncher appDetailsSettingsLauncher) {
+                    //没有权限
+                    Toast.makeText(ImagePickerActivity.this, getString(R.string.permission_tip), Toast.LENGTH_SHORT).show();
+                    finish();
+                }
+            });
         } else {
             startScannerTask();
         }
     }
-
-    /**
-     * 权限申请回调
-     *
-     * @param requestCode
-     * @param permissions
-     * @param grantResults
-     */
-    @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        if (requestCode == REQUEST_PERMISSION_CAMERA_CODE) {
-            if (grantResults.length >= 1) {
-                int cameraResult = grantResults[0];//相机权限
-                int sdResult = grantResults[1];//sd卡权限
-                boolean cameraGranted = cameraResult == PackageManager.PERMISSION_GRANTED;//拍照权限
-                boolean sdGranted = sdResult == PackageManager.PERMISSION_GRANTED;//拍照权限
-                if (cameraGranted && sdGranted) {
-                    //具有拍照权限，sd卡权限，开始扫描任务
-                    startScannerTask();
-                } else {
-                    //没有权限
-                    Toast.makeText(this, getString(R.string.permission_tip), Toast.LENGTH_SHORT).show();
-                    finish();
-                }
-            }
-        }
-    }
-
 
     /**
      * 开启扫描任务
@@ -300,33 +287,26 @@ public class ImagePickerActivity extends BaseActivity implements ImagePickerAdap
      */
     class MediaLoader implements MediaScanCallback {
 
+        @SuppressLint("NotifyDataSetChanged")
         @Override
         public void onLoadMedia(final List<MediaFolder> mediaFolderList) {
             boolean notDestroyed = assertNotDestroyed(ImagePickerActivity.this);
             if (!notDestroyed) return;
-            runOnUiThread(new Runnable() {
-                @Override
-                public void run() {
-                    if (!mediaFolderList.isEmpty()) {
-                        //默认加载全部照片
-                        mMediaFileList.addAll(mediaFolderList.get(0).getMediaFileList());
-                        mImagePickerAdapter.notifyDataSetChanged();
+            runOnUiThread(() -> {
+                if (!mediaFolderList.isEmpty()) {
+                    //默认加载全部照片
+                    mMediaFileList.addAll(mediaFolderList.get(0).getMediaFileList());
+                    mImagePickerAdapter.notifyDataSetChanged();
 
-                        //图片文件夹数据
-                        mMediaFolderList = new ArrayList<>(mediaFolderList);
-                        mImageFolderPopupWindow = new ImageFolderPopupWindow(ImagePickerActivity.this, mMediaFolderList);
-                        mImageFolderPopupWindow.setAnimationStyle(R.style.imageFolderAnimator);
-                        mImageFolderPopupWindow.getAdapter().setOnImageFolderChangeListener(ImagePickerActivity.this);
-                        mImageFolderPopupWindow.setOnDismissListener(new PopupWindow.OnDismissListener() {
-                            @Override
-                            public void onDismiss() {
-                                setLightMode(LIGHT_ON);
-                            }
-                        });
-                        updateCommitButton();
-                    }
-                    mProgressDialog.cancel();
+                    //图片文件夹数据
+                    mMediaFolderList = new ArrayList<>(mediaFolderList);
+                    mImageFolderPopupWindow = new ImageFolderPopupWindow(ImagePickerActivity.this, mMediaFolderList);
+                    mImageFolderPopupWindow.setAnimationStyle(R.style.imageFolderAnimator);
+                    mImageFolderPopupWindow.getAdapter().setOnImageFolderChangeListener(ImagePickerActivity.this);
+                    mImageFolderPopupWindow.setOnDismissListener(() -> setLightMode(LIGHT_ON));
+                    updateCommitButton();
                 }
+                if (null != mProgressDialog) mProgressDialog.cancel();
             });
         }
     }
@@ -335,7 +315,7 @@ public class ImagePickerActivity extends BaseActivity implements ImagePickerAdap
         if (activity.isFinishing()) {
             return false;
         }
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1 && activity.isDestroyed()) {
+        if (activity.isDestroyed()) {
             return false;
         }
         return true;
@@ -534,6 +514,7 @@ public class ImagePickerActivity extends BaseActivity implements ImagePickerAdap
      * @param view
      * @param position
      */
+    @SuppressLint("NotifyDataSetChanged")
     @Override
     public void onImageFolderChange(View view, int position) {
         MediaFolder mediaFolder = mMediaFolderList.get(position);
@@ -594,6 +575,7 @@ public class ImagePickerActivity extends BaseActivity implements ImagePickerAdap
     }
 
 
+    @SuppressLint("NotifyDataSetChanged")
     @Override
     protected void onResume() {
         super.onResume();
@@ -611,6 +593,7 @@ public class ImagePickerActivity extends BaseActivity implements ImagePickerAdap
     protected void onDestroy() {
         super.onDestroy();
         try {
+            if (null != mProgressDialog) mProgressDialog.dismiss();
             ConfigManager.getInstance().setImagePaths(new ArrayList<>());//清空选中数据
             ConfigManager.getInstance().getImageLoader().clearMemoryCache();
         } catch (Exception e) {

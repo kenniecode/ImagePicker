@@ -25,19 +25,19 @@ public class GlideLoader implements ImageLoader {
     @Override
     public void loadImage(ImageView imageView, String imagePath) {
         //小图加载
-        Glide.with(imageView.getContext()).load(imagePath).apply(mOptions).into(imageView);
+        GlideApp.with(imageView.getContext()).load(imagePath).apply(mOptions).into(imageView);
     }
 
     @Override
     public void loadPreImage(ImageView imageView, String imagePath) {
         //大图加载
-        Glide.with(imageView.getContext()).load(imagePath).apply(mPreOptions).into(imageView);
+        GlideApp.with(imageView.getContext()).load(imagePath).apply(mPreOptions).into(imageView);
 
     }
 
     @Override
     public void clearMemoryCache() {
         //清理缓存
-        Glide.get(MApplication.getContext()).clearMemory();
+        GlideApp.get(MApplication.getContext()).clearMemory();
     }
 }

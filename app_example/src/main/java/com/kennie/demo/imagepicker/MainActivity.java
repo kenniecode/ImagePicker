@@ -38,7 +38,6 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-
         if (requestCode == REQUEST_SELECT_IMAGES_CODE && resultCode == RESULT_OK) {
             mImagePaths = data.getStringArrayListExtra(ImagePicker.EXTRA_SELECT_IMAGES);
             StringBuilder stringBuffer = new StringBuilder();
