@@ -8,4 +8,7 @@ dependencyResolutionManagement {
 }
 
 rootProject.name = "KennieImagePicker"
+
+include ':library_res'
+
 include ':app_example', ':imagepicker'
