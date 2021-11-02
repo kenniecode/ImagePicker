@@ -1,26 +1,34 @@
 package com.kennie.library.imagepicker.manager;
 
-import com.kennie.library.imagepicker.utils.ImageLoader;
+import com.kennie.library.imagepicker.utils.MediaFileUtil;
 
+import java.io.File;
 import java.util.ArrayList;
 
+
 /**
- * 统一配置管理类
+ * @项目名 KennieImagePicker
+ * @类名称 ConfigManager
+ * @类描述 统一配置管理类
+ * @创建人 kennie
+ * @修改人
+ * @创建时间 2021/10/21 22:49
  */
 public class ConfigManager {
 
-    public static final int SELECT_MODE_SINGLE = 0;
-    public static final int SELECT_MODE_MULTI = 1;
+    public static final int SELECT_MODE_SINGLE = 0; // 单选
+    public static final int SELECT_MODE_MULTI = 1; // 多选
 
-    private String title;//标题
-    private boolean showCamera;//是否显示拍照Item，默认不显示
-    private boolean showImage = true;//是否显示图片，默认显示
-    private boolean showVideo = true;//是否显示视频，默认显示
-    private boolean filterGif = false;//是否过滤GIF图片，默认不过滤
-    private int selectionMode = SELECT_MODE_SINGLE;//选择模式，默认单选
-    private int maxCount = 1;//最大选择数量，默认为1
-    private boolean singleType;//是否只支持选单类型（图片或者视频）
-    private ArrayList<String> imagePaths;//上一次选择的图片地址集合
+    private String title; // 标题
+    private boolean showCamera; // 是否显示拍照Item，默认不显示
+    private boolean showImage = true; // 是否显示图片，默认显示
+    private boolean showVideo = true; // 是否显示视频，默认显示
+    private boolean filterGif = false; // 是否过滤GIF图片，默认不过滤
+    private int selectionMode = SELECT_MODE_SINGLE; // 选择模式，默认单选
+    private int maxCount = 1; // 最大选择数量，默认为1
+    private boolean singleType; // 是否只支持选单类型（图片或者视频）
+    private File picDir; // 拍照存储路径
+    private ArrayList<String> imagePaths; // 上一次选择的图片地址集合
 
     private ImageLoader imageLoader;
 
@@ -124,5 +132,18 @@ public class ConfigManager {
 
     public void setImageLoader(ImageLoader imageLoader) {
         this.imageLoader = imageLoader;
+    }
+
+    public void setCachePicDir(File dir){
+        picDir = dir;
+    }
+
+
+    public File getCachePicDir() {
+        if (picDir != null &&  picDir.exists() && picDir.isDirectory()) {
+            return picDir;
+        } else {
+            return MediaFileUtil.getCachePicDir();
+        }
     }
 }

@@ -5,7 +5,7 @@ import android.widget.ImageView;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.DecodeFormat;
 import com.bumptech.glide.request.RequestOptions;
-import com.kennie.library.imagepicker.utils.ImageLoader;
+import com.kennie.library.imagepicker.manager.ImageLoader;
 
 /**
  * 实现自定义图片加载

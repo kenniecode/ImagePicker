@@ -6,11 +6,17 @@ import android.database.Cursor;
 import android.net.Uri;
 import android.provider.MediaStore;
 
-import com.kennie.library.imagepicker.data.MediaFile;
+import com.kennie.library.imagepicker.entity.MediaFile;
 import com.kennie.library.imagepicker.manager.ConfigManager;
 
+
 /**
- * 媒体库扫描类(图片)
+ * @项目名 KennieImagePicker
+ * @类名称 ImageScanner
+ * @类描述 媒体库扫描类(图片)
+ * @创建人 kennie
+ * @修改人
+ * @创建时间 2021/10/21 22:49
  */
 public class ImageScanner extends AbsMediaScanner<MediaFile> {
 

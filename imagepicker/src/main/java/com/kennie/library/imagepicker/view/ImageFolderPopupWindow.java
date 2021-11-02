@@ -11,8 +11,8 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.kennie.library.imagepicker.R;
-import com.kennie.library.imagepicker.adapter.ImageFoldersAdapter;
-import com.kennie.library.imagepicker.data.MediaFolder;
+import com.kennie.library.imagepicker.ui.adapter.ImageFoldersAdapter;
+import com.kennie.library.imagepicker.entity.MediaFolder;
 import com.kennie.library.imagepicker.utils.Utils;
 
 import java.util.List;

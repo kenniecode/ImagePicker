@@ -5,8 +5,14 @@ import com.kennie.library.imagepicker.utils.MediaFileUtil;
 import java.util.ArrayList;
 import java.util.List;
 
+
 /**
- * 媒体选择集合管理类
+ * @项目名 KennieImagePicker
+ * @类名称 SelectionManager
+ * @类描述 媒体选择集合管理类
+ * @创建人 kennie
+ * @修改人
+ * @创建时间 2021/10/21 22:49
  */
 public class SelectionManager {
 

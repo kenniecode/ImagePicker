@@ -1,11 +1,17 @@
-package com.kennie.library.imagepicker.utils;
+package com.kennie.library.imagepicker.manager;
 
 import android.widget.ImageView;
 
 import java.io.Serializable;
 
+
 /**
- * 开放图片加载接口
+ * @项目名 KennieImagePicker
+ * @类名称 ImageLoader
+ * @类描述 开放图片加载接口
+ * @创建人 kennie
+ * @修改人
+ * @创建时间 2021/10/21 22:49
  */
 public interface ImageLoader extends Serializable {
 

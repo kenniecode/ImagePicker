@@ -1,4 +1,4 @@
-package com.kennie.library.imagepicker.activity;
+package com.kennie.library.imagepicker.ui;
 
 import android.os.Bundle;
 import android.view.Window;
@@ -30,21 +30,11 @@ public abstract class BaseActivity extends AppCompatActivity {
         window.setStatusBarColor(getResources().getColor(R.color.tool_bar_color));
 
         setContentView(bindLayout());
-
-        initConfig();
         initView();
-        initListener();
-        getData();
     }
 
     protected abstract int bindLayout();
 
-    protected void initConfig() {
-    }
-
     protected abstract void initView();
 
-    protected abstract void initListener();
-
-    protected abstract void getData();
 }

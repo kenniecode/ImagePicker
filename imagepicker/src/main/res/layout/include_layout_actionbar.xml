@@ -2,6 +2,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="@dimen/dp_44"
+    xmlns:tools="http://schemas.android.com/tools"
     android:background="@color/tool_bar_color">
 
     <ImageView
@@ -19,7 +20,7 @@
         android:layout_height="match_parent"
         android:layout_toEndOf="@+id/iv_actionBar_back"
         android:gravity="center"
-        android:text="@string/image_picker"
+        tools:text="标题"
         android:textColor="@color/white"
         android:textSize="@dimen/sp_16" />
 
@@ -37,7 +38,7 @@
         android:paddingTop="@dimen/dp_5"
         android:paddingRight="@dimen/dp_10"
         android:paddingBottom="@dimen/dp_5"
-        android:text="@string/confirm"
+        android:text="@string/kennie_picker_confirm"
         android:textColor="@color/white"
         android:textSize="@dimen/sp_14" />
 

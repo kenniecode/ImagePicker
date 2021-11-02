@@ -2,9 +2,8 @@ package com.kennie.library.imagepicker.task;
 
 import android.content.Context;
 
-import com.kennie.library.imagepicker.data.MediaFile;
-import com.kennie.library.imagepicker.listener.MediaLoadCallback;
-import com.kennie.library.imagepicker.loader.MediaHandler;
+import com.kennie.library.imagepicker.entity.MediaFile;
+import com.kennie.library.imagepicker.utils.MediaUtil;
 import com.kennie.library.imagepicker.loader.VideoScanner;
 
 import java.util.ArrayList;
@@ -12,12 +11,21 @@ import java.util.ArrayList;
 /**
  * 媒体库扫描任务（视频）
  */
-public class VideoLoadTask implements Runnable {
+
+/**
+ * @项目名 KennieImagePicker
+ * @类名称 VideoScanTask
+ * @类描述 媒体库扫描任务（视频）
+ * @创建人 kennie
+ * @修改人
+ * @创建时间 2021/10/21 22:49
+ */
+public class VideoScanTask implements Runnable {
     private Context mContext;
     private VideoScanner mVideoScanner;
-    private MediaLoadCallback mMediaLoadCallback;
+    private MediaScanCallback mMediaLoadCallback;
 
-    public VideoLoadTask(Context context, MediaLoadCallback mediaLoadCallback) {
+    public VideoScanTask(Context context, MediaScanCallback mediaLoadCallback) {
         this.mContext = context;
         this.mMediaLoadCallback = mediaLoadCallback;
         mVideoScanner = new VideoScanner(context);
@@ -33,7 +41,7 @@ public class VideoLoadTask implements Runnable {
         }
 
         if (mMediaLoadCallback != null) {
-            mMediaLoadCallback.loadMediaSuccess(MediaHandler.getVideoFolder(mContext, videoFileList));
+            mMediaLoadCallback.onLoadMedia(MediaUtil.getVideoFolder(mContext, videoFileList));
         }
     }
 }

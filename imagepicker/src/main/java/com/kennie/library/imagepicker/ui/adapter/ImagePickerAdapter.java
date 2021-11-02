@@ -1,4 +1,4 @@
-package com.kennie.library.imagepicker.adapter;
+package com.kennie.library.imagepicker.ui.adapter;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
@@ -15,8 +15,8 @@ import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.kennie.library.imagepicker.R;
-import com.kennie.library.imagepicker.data.ItemType;
-import com.kennie.library.imagepicker.data.MediaFile;
+import com.kennie.library.imagepicker.entity.ItemType;
+import com.kennie.library.imagepicker.entity.MediaFile;
 import com.kennie.library.imagepicker.manager.ConfigManager;
 import com.kennie.library.imagepicker.manager.SelectionManager;
 import com.kennie.library.imagepicker.utils.Utils;

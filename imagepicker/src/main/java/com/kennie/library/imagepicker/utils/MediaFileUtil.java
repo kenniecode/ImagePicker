@@ -1,5 +1,8 @@
 package com.kennie.library.imagepicker.utils;
 
+import android.os.Environment;
+
+import java.io.File;
 import java.util.HashMap;
 import java.util.Iterator;
 
@@ -176,5 +179,17 @@ public class MediaFileUtil {
     public static int getFileTypeForMimeType(String mimeType) {
         Integer value = sMimeTypeMap.get(mimeType);
         return (value == null ? 0 : value);
+    }
+
+    /**
+     * 拍照存放路径
+     * @return
+     */
+    public static File getCachePicDir(){
+        File fileDir = new File(Environment.getExternalStorageDirectory(), "Pictures");
+        if (!fileDir.exists()) {
+            fileDir.mkdir();
+        }
+        return fileDir;
     }
 }

@@ -1,6 +1,6 @@
 package com.kennie.library.imagepicker.utils;
 
-import com.kennie.library.imagepicker.data.MediaFile;
+import com.kennie.library.imagepicker.entity.MediaFile;
 
 import java.util.ArrayList;
 import java.util.List;

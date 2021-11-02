@@ -1,8 +1,10 @@
-package com.kennie.library.imagepicker.activity;
+package com.kennie.library.imagepicker.ui;
 
 import android.Manifest;
 import android.animation.ObjectAnimator;
+import android.app.Activity;
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.net.Uri;
@@ -21,27 +23,27 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.appcompat.widget.AppCompatTextView;
 import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 import androidx.core.content.FileProvider;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.kennie.library.imagepicker.ImagePicker;
 import com.kennie.library.imagepicker.R;
-import com.kennie.library.imagepicker.adapter.ImageFoldersAdapter;
-import com.kennie.library.imagepicker.adapter.ImagePickerAdapter;
-import com.kennie.library.imagepicker.data.MediaFile;
-import com.kennie.library.imagepicker.data.MediaFolder;
-import com.kennie.library.imagepicker.executors.CommonExecutor;
-import com.kennie.library.imagepicker.listener.MediaLoadCallback;
+import com.kennie.library.imagepicker.ui.adapter.ImageFoldersAdapter;
+import com.kennie.library.imagepicker.ui.adapter.ImagePickerAdapter;
+import com.kennie.library.imagepicker.entity.MediaFile;
+import com.kennie.library.imagepicker.entity.MediaFolder;
+import com.kennie.library.imagepicker.task.DefaultExecutor;
+import com.kennie.library.imagepicker.task.MediaScanCallback;
 import com.kennie.library.imagepicker.manager.ConfigManager;
 import com.kennie.library.imagepicker.manager.SelectionManager;
 import com.kennie.library.imagepicker.provider.ImagePickerProvider;
-import com.kennie.library.imagepicker.task.ImageLoadTask;
-import com.kennie.library.imagepicker.task.MediaLoadTask;
-import com.kennie.library.imagepicker.task.VideoLoadTask;
+import com.kennie.library.imagepicker.task.ImageScanTask;
+import com.kennie.library.imagepicker.task.MediaScanTask;
+import com.kennie.library.imagepicker.task.VideoScanTask;
 import com.kennie.library.imagepicker.utils.DataUtil;
 import com.kennie.library.imagepicker.utils.MediaFileUtil;
-import com.kennie.library.imagepicker.utils.PermissionUtil;
 import com.kennie.library.imagepicker.utils.Utils;
 import com.kennie.library.imagepicker.view.ImageFolderPopupWindow;
 
@@ -91,6 +93,9 @@ public class ImagePickerActivity extends BaseActivity implements ImagePickerAdap
     //文件夹数据源
     private List<MediaFolder> mMediaFolderList;
 
+    private File mPicDir;
+
+
     //是否显示时间
     private boolean isShowTime;
 
@@ -131,19 +136,27 @@ public class ImagePickerActivity extends BaseActivity implements ImagePickerAdap
     }
 
 
+    @Override
+    protected void initView() {
+        initConfig();
+        initUi();
+        initEvent();
+        startWhenPermissionGrant();
+    }
+
+
     /**
      * 初始化配置
      */
-    @Override
-    protected void initConfig() {
+    private void initConfig() {
         mTitle = ConfigManager.getInstance().getTitle();
         isShowCamera = ConfigManager.getInstance().isShowCamera();
         isShowImage = ConfigManager.getInstance().isShowImage();
         isShowVideo = ConfigManager.getInstance().isShowVideo();
         isSingleType = ConfigManager.getInstance().isSingleType();
+        mPicDir = ConfigManager.getInstance().getCachePicDir();
         mMaxCount = ConfigManager.getInstance().getMaxCount();
         SelectionManager.getInstance().setMaxCount(mMaxCount);
-
         //载入历史选择记录
         mImagePaths = ConfigManager.getInstance().getImagePaths();
         if (mImagePaths != null && !mImagePaths.isEmpty()) {
@@ -151,20 +164,12 @@ public class ImagePickerActivity extends BaseActivity implements ImagePickerAdap
         }
     }
 
-
-    /**
-     * 初始化布局控件
-     */
-    @Override
-    protected void initView() {
-
+    private void initUi() {
         mProgressDialog = ProgressDialog.show(this, null, getString(R.string.scanner_image));
 
         //顶部栏相关
         mTvTitle = findViewById(R.id.tv_actionBar_title);
-        if (TextUtils.isEmpty(mTitle)) {
-            mTvTitle.setText(getString(R.string.image_picker));
-        } else {
+        if (!TextUtils.isEmpty(mTitle)) {
             mTvTitle.setText(mTitle);
         }
         mTvCommit = findViewById(R.id.tv_actionBar_commit);
@@ -188,64 +193,42 @@ public class ImagePickerActivity extends BaseActivity implements ImagePickerAdap
         mImagePickerAdapter = new ImagePickerAdapter(this, mMediaFileList);
         mImagePickerAdapter.setOnItemClickListener(this);
         mRecyclerView.setAdapter(mImagePickerAdapter);
-
-
     }
 
-    /**
-     * 初始化控件监听事件
-     */
-    @Override
-    protected void initListener() {
-
-        findViewById(R.id.iv_actionBar_back).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                setResult(RESULT_CANCELED);
-                finish();
-            }
+    private void initEvent() {
+        findViewById(R.id.iv_actionBar_back).setOnClickListener(v -> {
+            setResult(RESULT_CANCELED);
+            finish();
         });
 
-        mTvCommit.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                commitSelection();
-            }
-        });
+        mTvCommit.setOnClickListener(v -> commitSelection());
 
-        mTvImageFolders.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if (mImageFolderPopupWindow != null) {
-                    setLightMode(LIGHT_OFF);
-                    mImageFolderPopupWindow.showAsDropDown(mRlBottom, 0, 0);
-                }
+        mTvImageFolders.setOnClickListener(view -> {
+            if (mImageFolderPopupWindow != null) {
+                setLightMode(LIGHT_OFF);
+                mImageFolderPopupWindow.showAsDropDown(mRlBottom, 0, 0);
             }
         });
 
         mRecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
-            public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
+            public void onScrollStateChanged(@NonNull RecyclerView recyclerView, int newState) {
                 super.onScrollStateChanged(recyclerView, newState);
                 updateImageTime();
             }
 
             @Override
-            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+            public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
                 super.onScrolled(recyclerView, dx, dy);
                 updateImageTime();
             }
         });
-
     }
 
-    /**
-     * 获取数据源
-     */
-    @Override
-    protected void getData() {
+
+    protected void startWhenPermissionGrant() {
         //进行权限的判断
-        boolean hasPermission = PermissionUtil.checkPermission(this);
+        boolean hasPermission = checkPermission(this);
         if (!hasPermission) {
             ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE}, REQUEST_PERMISSION_CAMERA_CODE);
         } else {
@@ -290,35 +273,37 @@ public class ImagePickerActivity extends BaseActivity implements ImagePickerAdap
 
         //照片、视频全部加载
         if (isShowImage && isShowVideo) {
-            mediaLoadTask = new MediaLoadTask(this, new MediaLoader());
+            mediaLoadTask = new MediaScanTask(this, new MediaLoader());
         }
 
         //只加载视频
         if (!isShowImage && isShowVideo) {
-            mediaLoadTask = new VideoLoadTask(this, new MediaLoader());
+            mediaLoadTask = new VideoScanTask(this, new MediaLoader());
         }
 
         //只加载图片
         if (isShowImage && !isShowVideo) {
-            mediaLoadTask = new ImageLoadTask(this, new MediaLoader());
+            mediaLoadTask = new ImageScanTask(this, new MediaLoader());
         }
 
         //不符合以上场景，采用照片、视频全部加载
         if (mediaLoadTask == null) {
-            mediaLoadTask = new MediaLoadTask(this, new MediaLoader());
+            mediaLoadTask = new MediaScanTask(this, new MediaLoader());
         }
 
-        CommonExecutor.getInstance().execute(mediaLoadTask);
+        DefaultExecutor.getInstance().execute(mediaLoadTask);
     }
 
 
     /**
      * 处理媒体数据加载成功后的UI渲染
      */
-    class MediaLoader implements MediaLoadCallback {
+    class MediaLoader implements MediaScanCallback {
 
         @Override
-        public void loadMediaSuccess(final List<MediaFolder> mediaFolderList) {
+        public void onLoadMedia(final List<MediaFolder> mediaFolderList) {
+            boolean notDestroyed = assertNotDestroyed(ImagePickerActivity.this);
+            if (!notDestroyed) return;
             runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
@@ -346,6 +331,15 @@ public class ImagePickerActivity extends BaseActivity implements ImagePickerAdap
         }
     }
 
+    private static boolean assertNotDestroyed(@NonNull Activity activity) {
+        if (activity.isFinishing()) {
+            return false;
+        }
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1 && activity.isDestroyed()) {
+            return false;
+        }
+        return true;
+    }
 
     /**
      * 隐藏时间
@@ -489,17 +483,17 @@ public class ImagePickerActivity extends BaseActivity implements ImagePickerAdap
         int selectCount = SelectionManager.getInstance().getSelectPaths().size();
         if (selectCount == 0) {
             mTvCommit.setEnabled(false);
-            mTvCommit.setText(getString(R.string.confirm));
+            mTvCommit.setText(getString(R.string.kennie_picker_confirm));
             return;
         }
         if (selectCount < mMaxCount) {
             mTvCommit.setEnabled(true);
-            mTvCommit.setText(String.format(getString(R.string.confirm_msg), selectCount, mMaxCount));
+            mTvCommit.setText(String.format(getString(R.string.kennie_picker_confirm_msg), selectCount, mMaxCount));
             return;
         }
         if (selectCount == mMaxCount) {
             mTvCommit.setEnabled(true);
-            mTvCommit.setText(String.format(getString(R.string.confirm_msg), selectCount, mMaxCount));
+            mTvCommit.setText(String.format(getString(R.string.kennie_picker_confirm_msg), selectCount, mMaxCount));
             return;
         }
     }
@@ -522,12 +516,7 @@ public class ImagePickerActivity extends BaseActivity implements ImagePickerAdap
         }
 
         //拍照存放路径
-        File fileDir = new File(Environment.getExternalStorageDirectory(), "Pictures");
-        if (!fileDir.exists()) {
-            fileDir.mkdir();
-        }
-        mFilePath = fileDir.getAbsolutePath() + "/IMG_" + System.currentTimeMillis() + ".jpg";
-
+        mFilePath = mPicDir.getAbsolutePath() + File.separator + "IMG_" + System.currentTimeMillis() + ".jpg";
         Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
         Uri uri;
         if (Build.VERSION.SDK_INT >= 24) {
@@ -600,7 +589,7 @@ public class ImagePickerActivity extends BaseActivity implements ImagePickerAdap
         Intent intent = new Intent();
         intent.putStringArrayListExtra(ImagePicker.EXTRA_SELECT_IMAGES, list);
         setResult(RESULT_OK, intent);
-        SelectionManager.getInstance().removeAll();//清空选中记录
+        SelectionManager.getInstance().removeAll(); // 清空选中记录
         finish();
     }
 
@@ -622,10 +611,15 @@ public class ImagePickerActivity extends BaseActivity implements ImagePickerAdap
     protected void onDestroy() {
         super.onDestroy();
         try {
+            ConfigManager.getInstance().setImagePaths(new ArrayList<>());//清空选中数据
             ConfigManager.getInstance().getImageLoader().clearMemoryCache();
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
+
+    public static boolean checkPermission(Context context) {
+        return ContextCompat.checkSelfPermission(context, Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED && ContextCompat.checkSelfPermission(context, Manifest.permission.CAMERA) == PackageManager.PERMISSION_GRANTED;
+    }
 }

@@ -1,16 +1,22 @@
-package com.kennie.library.imagepicker.data;
+package com.kennie.library.imagepicker.entity;
+
 
 /**
- * 媒体实体类
+ * @项目名 KennieImagePicker
+ * @类名称 MediaFile
+ * @类描述 媒体实体类
+ * @创建人 kennie
+ * @修改人
+ * @创建时间 2021/10/21 22:49
  */
 public class MediaFile {
 
-    private String path;
-    private String mime;
-    private Integer folderId;
-    private String folderName;
-    private long duration;
-    private long dateToken;
+    private String path; // 路径
+    private String mime; // 媒体类型
+    private Integer folderId; // 媒体分类id
+    private String folderName; // 媒体分类名称
+    private long duration; // 媒体文件时长
+    private long dateToken; // 媒体文件创建日期
 
     public String getPath() {
         return path;
@@ -58,5 +64,18 @@ public class MediaFile {
 
     public void setDateToken(long dateToken) {
         this.dateToken = dateToken;
+    }
+
+
+    @Override
+    public String toString() {
+        return "MediaFile{" +
+                "path='" + path + '\'' +
+                ", mime='" + mime + '\'' +
+                ", folderId=" + folderId +
+                ", folderName='" + folderName + '\'' +
+                ", duration=" + duration +
+                ", dateToken=" + dateToken +
+                '}';
     }
 }

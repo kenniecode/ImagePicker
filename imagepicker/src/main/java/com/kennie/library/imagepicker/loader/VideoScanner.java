@@ -6,20 +6,25 @@ import android.database.Cursor;
 import android.net.Uri;
 import android.provider.MediaStore;
 
-import com.kennie.library.imagepicker.data.MediaFile;
+import com.kennie.library.imagepicker.entity.MediaFile;
+
+import java.io.File;
+
 
 /**
- * 媒体库扫描类(视频)
+ * @项目名 KennieImagePicker
+ * @类名称 ImageScanner
+ * @类描述 媒体库扫描类(视频)
+ * @创建人 kennie
+ * @修改人
+ * @创建时间 2021/10/21 22:49
  */
 public class VideoScanner extends AbsMediaScanner<MediaFile> {
 
     public static final int ALL_IMAGES_FOLDER = -1;//全部图片
 
-    private Context mContext;
-
     public VideoScanner(Context context) {
         super(context);
-        this.mContext = context;
     }
 
     @Override
@@ -63,13 +68,15 @@ public class VideoScanner extends AbsMediaScanner<MediaFile> {
     @Override
     protected MediaFile parse(Cursor cursor) {
 
-        @SuppressLint("Range") String path = cursor.getString(cursor.getColumnIndex(MediaStore.Video.Media.DATA));
-        @SuppressLint("Range") String mime = cursor.getString(cursor.getColumnIndex(MediaStore.Video.Media.MIME_TYPE));
-        @SuppressLint("Range") Integer folderId = cursor.getInt(cursor.getColumnIndex(MediaStore.Video.Media.BUCKET_ID));
-        @SuppressLint("Range") String folderName = cursor.getString(cursor.getColumnIndex(MediaStore.Video.Media.BUCKET_DISPLAY_NAME));
-        @SuppressLint("Range") long duration = cursor.getLong(cursor.getColumnIndex(MediaStore.Video.Media.DURATION));
-        @SuppressLint("Range") long dateToken = cursor.getLong(cursor.getColumnIndex(MediaStore.Video.Media.DATE_TAKEN));
-
+        String path = cursor.getString(cursor.getColumnIndex(MediaStore.Video.Media.DATA));
+        String mime = cursor.getString(cursor.getColumnIndex(MediaStore.Video.Media.MIME_TYPE));
+        Integer folderId = cursor.getInt(cursor.getColumnIndex(MediaStore.Video.Media.BUCKET_ID));
+        String folderName = cursor.getString(cursor.getColumnIndex(MediaStore.Video.Media.BUCKET_DISPLAY_NAME));
+        long duration = cursor.getLong(cursor.getColumnIndex(MediaStore.Video.Media.DURATION));
+        long dateToken = cursor.getLong(cursor.getColumnIndex(MediaStore.Video.Media.DATE_TAKEN));
+        if (!new File(path).exists()) {
+            return null;
+        }
         MediaFile mediaFile = new MediaFile();
         mediaFile.setPath(path);
         mediaFile.setMime(mime);

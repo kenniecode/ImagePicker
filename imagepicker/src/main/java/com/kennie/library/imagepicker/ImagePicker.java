@@ -3,14 +3,24 @@ package com.kennie.library.imagepicker;
 import android.app.Activity;
 import android.content.Intent;
 
-import com.kennie.library.imagepicker.activity.ImagePickerActivity;
+import com.kennie.library.imagepicker.ui.ImagePickerActivity;
 import com.kennie.library.imagepicker.manager.ConfigManager;
-import com.kennie.library.imagepicker.utils.ImageLoader;
+import com.kennie.library.imagepicker.manager.ImageLoader;
 
+import java.io.File;
 import java.util.ArrayList;
 
 /**
- * 统一调用入口
+ *
+ */
+
+/**
+ * @项目名 KennieImagePicker
+ * @类名称 ImagePicker
+ * @类描述 统一调用入口
+ * @创建人 kennie
+ * @修改人
+ * @创建时间 2021/10/21 22:49
  */
 public class ImagePicker {
 
@@ -136,6 +146,14 @@ public class ImagePicker {
      */
     public ImagePicker setImagePaths(ArrayList<String> imagePaths) {
         ConfigManager.getInstance().setImagePaths(imagePaths);
+        return mImagePicker;
+    }
+
+    /**
+     * 拍照的图片存储目录
+     */
+    public ImagePicker setCachePicDir(File dir) {
+        ConfigManager.getInstance().setCachePicDir(dir);
         return mImagePicker;
     }
 

@@ -26,10 +26,10 @@
             android:layout_marginStart="@dimen/dp_10"
             android:drawablePadding="@dimen/dp_5"
             android:gravity="center"
-            android:text="@string/all_media"
+            android:text="@string/kennie_picker_all"
             android:textColor="@android:color/white"
             android:textSize="@dimen/sp_16"
-            tools:text="@string/all_media"
+            tools:text="@string/kennie_picker_all"
             android:drawableEnd="@mipmap/icon_album_index"
             tools:drawableEnd="@mipmap/icon_album_index"/>
 

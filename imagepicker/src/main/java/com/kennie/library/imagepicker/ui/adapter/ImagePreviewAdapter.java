@@ -1,4 +1,4 @@
-package com.kennie.library.imagepicker.adapter;
+package com.kennie.library.imagepicker.ui.adapter;
 
 import android.content.Context;
 import android.view.View;
@@ -7,7 +7,7 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.viewpager.widget.PagerAdapter;
 
-import com.kennie.library.imagepicker.data.MediaFile;
+import com.kennie.library.imagepicker.entity.MediaFile;
 import com.kennie.library.imagepicker.manager.ConfigManager;
 import com.kennie.library.imagepicker.view.PinchImageView;
 
@@ -17,14 +17,14 @@ import java.util.List;
 /**
  * 大图浏览适配器（并不是比较好的方案，后期会用RecyclerView来实现）
  */
-public class ImagePreViewAdapter extends PagerAdapter {
+public class ImagePreviewAdapter extends PagerAdapter {
 
     private Context mContext;
     private List<MediaFile> mMediaFileList;
 
     LinkedList<PinchImageView> viewCache = new LinkedList<PinchImageView>();
 
-    public ImagePreViewAdapter(Context context, List<MediaFile> mediaFileList) {
+    public ImagePreviewAdapter(Context context, List<MediaFile> mediaFileList) {
         this.mContext = context;
         this.mMediaFileList = mediaFileList;
     }

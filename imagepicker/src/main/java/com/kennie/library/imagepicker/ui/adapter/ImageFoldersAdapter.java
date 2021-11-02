@@ -1,4 +1,4 @@
-package com.kennie.library.imagepicker.adapter;
+package com.kennie.library.imagepicker.ui.adapter;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
@@ -14,7 +14,7 @@ import androidx.appcompat.widget.AppCompatImageView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.kennie.library.imagepicker.R;
-import com.kennie.library.imagepicker.data.MediaFolder;
+import com.kennie.library.imagepicker.entity.MediaFolder;
 import com.kennie.library.imagepicker.manager.ConfigManager;
 
 import java.util.List;
@@ -45,7 +45,7 @@ public class ImageFoldersAdapter extends RecyclerView.Adapter<ImageFoldersAdapte
     public void onBindViewHolder(@NonNull ViewHolder holder, @SuppressLint("RecyclerView") final int position) {
 
         final MediaFolder mediaFolder = mMediaFolderList.get(position);
-        String folderCover = mediaFolder.getFolderCover();
+        String folderCover = mediaFolder.getFolderCoverPath();
         String folderName = mediaFolder.getFolderName();
         int imageSize = mediaFolder.getMediaFileList().size();
 
