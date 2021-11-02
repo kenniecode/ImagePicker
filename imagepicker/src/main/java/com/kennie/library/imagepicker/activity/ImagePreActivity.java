@@ -180,7 +180,6 @@ public class ImagePreActivity extends BaseActivity {
         if (selectCount == maxCount) {
             mTvCommit.setEnabled(true);
             mTvCommit.setText(String.format(getString(R.string.confirm_msg), selectCount, maxCount));
-            return;
         }
     }
 
