@@ -7,5 +7,5 @@ dependencyResolutionManagement {
     }
 }
 
-rootProject.name = "ImagePicker(kenniecode)"
-include ':app', ':imagepicker'
+rootProject.name = "KennieImagePicker"
+include ':app_example', ':imagepicker'
