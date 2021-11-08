@@ -1,0 +1,25 @@
+plugins {
+    id 'com.android.library'
+    id 'kotlin-android'
+}
+
+apply from: "${rootDir}/configs/tools/gradle/library.gradle"
+
+android {
+
+    defaultConfig {
+        versionCode 100
+        versionName "1.0.0"
+    }
+}
+
+
+dependencies {
+    implementation fileTree(include: ['*.jar'], dir: 'libs')
+    implementation depK.core
+    implementation depX.appcompat
+    implementation depX.material
+    implementation depX.recyclerview
+    implementation 'com.github.DylanCaiCoding:ActivityResultLauncher:1.1.2'
+    implementation project(':library_res')
+}
